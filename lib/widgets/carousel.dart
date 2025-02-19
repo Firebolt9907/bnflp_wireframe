@@ -6,8 +6,15 @@ class Carousel extends StatefulWidget {
   final List<ImageData> images;
   final CarouselSliderController? carouselController;
   final double aspectRatio;
+  final BuildContext parentContext;
 
-  const Carousel({super.key, required this.images, this.carouselController, required this.aspectRatio});
+  const Carousel({
+    super.key,
+    required this.images,
+    this.carouselController,
+    required this.aspectRatio,
+    required this.parentContext,
+  });
 
   @override
   State<Carousel> createState() => _CarouselState();
@@ -16,16 +23,22 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider.builder(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Padding(
+          padding: EdgeInsets.only(top: 60),
+          child: CarouselSlider.builder(
             itemCount: widget.images.length,
             itemBuilder: (context, index, index1) {
               return Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(isMobile(constraints) ? 0 : 10),
                 child: Stack(
                   alignment: Alignment.bottomLeft,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(
+                        isMobile(constraints) ? 0 : 20,
+                      ),
                       child: AspectRatio(
                         aspectRatio: widget.aspectRatio * 1.4,
                         child: Image.asset(
@@ -60,7 +73,7 @@ class _CarouselState extends State<Carousel> {
               aspectRatio: widget.aspectRatio * 1.4,
               enlargeCenterPage: true,
               viewportFraction: 1,
-              enlargeFactor: 0.4,
+              enlargeFactor: isMobile(constraints) ? 0 : 0.4,
               enableInfiniteScroll: true,
               enlargeStrategy: CenterPageEnlargeStrategy.zoom,
               autoPlayAnimationDuration: Duration(
@@ -71,6 +84,9 @@ class _CarouselState extends State<Carousel> {
               pauseAutoPlayOnTouch: false,
             ),
             carouselController: widget.carouselController,
-          );
+          ),
+        );
+      },
+    );
   }
 }
