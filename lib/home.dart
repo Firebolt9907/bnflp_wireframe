@@ -1,6 +1,6 @@
 import 'package:bnflp_wireframe/main.dart';
 import 'package:bnflp_wireframe/widgets/aboutMeBlurb.dart';
-import 'package:bnflp_wireframe/widgets/carousel.dart';
+import 'package:bnflp_wireframe/widgets/imageCarousel.dart';
 import 'package:bnflp_wireframe/widgets/navBar.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,19 +45,19 @@ class _MyHomePageState extends State<MyHomePage> {
     double aspectRatio =
         MediaQuery.sizeOf(context).width / MediaQuery.sizeOf(context).height;
     return CupertinoPageScaffold(
-      navigationBar: createNavBar(context),
+      navigationBar: createNavBar(context, "Bare Necessities of Life Photography", true),
 
       child: ListView(
         children: [
           GestureDetector(
-            child: Carousel(
+            child: ImageCarousel(
               images: images,
               carouselController: carouselController,
               aspectRatio: aspectRatio,
               parentContext: context,
             ),
             onTap: () {
-              context.go('/galleries');
+              context.push('/galleries');
             },
           ),
           AboutMeBlurb(parentContext: context),

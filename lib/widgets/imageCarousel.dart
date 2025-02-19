@@ -2,13 +2,13 @@ import 'package:bnflp_wireframe/main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class Carousel extends StatefulWidget {
+class ImageCarousel extends StatefulWidget {
   final List<ImageData> images;
   final CarouselSliderController? carouselController;
   final double aspectRatio;
   final BuildContext parentContext;
 
-  const Carousel({
+  const ImageCarousel({
     super.key,
     required this.images,
     this.carouselController,
@@ -17,10 +17,10 @@ class Carousel extends StatefulWidget {
   });
 
   @override
-  State<Carousel> createState() => _CarouselState();
+  State<ImageCarousel> createState() => _ImageCarouselState();
 }
 
-class _CarouselState extends State<Carousel> {
+class _ImageCarouselState extends State<ImageCarousel> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

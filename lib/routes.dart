@@ -3,12 +3,13 @@ import 'package:bnflp_wireframe/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
-final router = GoRouter(
+var router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => const MyHomePage()),
     GoRoute(
       path: '/galleries',
       builder: (context, state) => const GalleriesPage(),
+      
     ),
     GoRoute(
       path: '/test',
