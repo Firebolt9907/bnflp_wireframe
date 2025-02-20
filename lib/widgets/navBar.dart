@@ -12,15 +12,7 @@ CupertinoNavigationBar createNavBar(BuildContext context, String title, bool isH
     border: Border.all(color: Colors.transparent),
     backgroundColor: const Color.fromARGB(103, 255, 255, 255),
     automaticBackgroundVisibility: false,
-    leading: isHome ? null : CupertinoNavigationBarBackButton(
-      onPressed: () {
-        if (context.canPop()) {
-          context.pop();
-        }
-      },
-      previousPageTitle: "Back",
-      color: Colors.black,
-    ),
+    previousPageTitle: "Back",
     trailing: IntrinsicWidth(
       child: Row(
         spacing: 5,

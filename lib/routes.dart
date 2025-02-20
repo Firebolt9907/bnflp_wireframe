@@ -1,5 +1,5 @@
-import 'package:bnflp_wireframe/galleries.dart';
-import 'package:bnflp_wireframe/home.dart';
+import 'package:bnflp_wireframe/pages/galleries.dart';
+import 'package:bnflp_wireframe/pages/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
