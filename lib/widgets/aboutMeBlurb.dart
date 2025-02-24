@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:bnflp_wireframe/main.dart';
+import 'package:bnflp_wireframe/data/dataTypes.dart';
 import 'package:flutter/material.dart';
 
 class AboutMeBlurb extends StatelessWidget {
@@ -11,7 +11,7 @@ class AboutMeBlurb extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (isMobile(constraints)) {
+        if (isMobile(context)) {
           return Column(
             children: [
               Image.asset('assets/pfp.jpg'),
@@ -54,11 +54,11 @@ class AboutMeBlurb extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: SizedBox(
-                    child: Image.asset('assets/pfp.jpg'),
                     width: min(
                       MediaQuery.sizeOf(context).width * 0.4,
                       MediaQuery.sizeOf(context).height * 0.5,
                     ),
+                    child: Image.asset('assets/pfp.jpg'),
                   ),
                 ),
               ),

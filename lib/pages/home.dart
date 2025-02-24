@@ -1,8 +1,9 @@
-import 'package:bnflp_wireframe/main.dart';
+import 'package:bnflp_wireframe/data/testData.dart';
+import 'package:bnflp_wireframe/data/dataTypes.dart';
 import 'package:bnflp_wireframe/widgets/aboutMeBlurb.dart';
+import 'package:bnflp_wireframe/widgets/footer.dart';
 import 'package:bnflp_wireframe/widgets/imageCarousel.dart';
 import 'package:bnflp_wireframe/widgets/navBar.dart';
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,44 +16,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<ImageData> images = [
-    ImageData(
-      imagePath: 'assets/1.jpg',
-      caption: "Morning Full Moon Reflection",
-      location: "Sugar Creek",
-    ),
-    ImageData(
-      imagePath: 'assets/2.jpg',
-      caption:
-          "Bishop Castle in Rye, CO allows visitors to explore at their own risk and provides you an experience you will never forget.",
-      location: "Bishop Castle",
-    ),
-    ImageData(
-      imagePath: 'assets/3.jpg',
-      caption: "Frozen Pond Sunrise",
-      location: "Sugar Creek",
-    ),
-    ImageData(
-      imagePath: 'assets/4.jpg',
-      caption: "A morning view of Pikes Peak from Garden of the Gods",
-      location: "Garden of the Gods",
-    ),
-  ];
-  CarouselSliderController carouselController = CarouselSliderController();
-
   @override
   Widget build(BuildContext context) {
     double aspectRatio =
         MediaQuery.sizeOf(context).width / MediaQuery.sizeOf(context).height;
     return CupertinoPageScaffold(
-      navigationBar: createNavBar(context, "Bare Necessities of Life Photography", true),
+      navigationBar: createNavBar(
+        context,
+        "Bare Necessities of Life Photography",
+        true,
+        "",
+        isMobile(context),
+      ),
 
       child: ListView(
         children: [
           GestureDetector(
             child: ImageCarousel(
               images: images,
-              carouselController: carouselController,
               aspectRatio: aspectRatio,
               parentContext: context,
             ),
@@ -61,6 +42,17 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           AboutMeBlurb(parentContext: context),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Text(
+              "[THIS CANNOT BE USED AS THE FINAL HOME PAGE DUE TO SEO ISSUES]",
+              textAlign: TextAlign.center,
+              style: Theme.of(
+                context,
+              ).textTheme.displaySmall!.copyWith(color: Colors.red),
+            ),
+          ),
+          Footer(),
         ],
       ),
     );
