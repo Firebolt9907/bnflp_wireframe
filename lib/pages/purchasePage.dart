@@ -56,10 +56,7 @@ class _PurchasePageState extends State<PurchasePage> {
                   top: 0,
                   bottom: 10,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(isWireframe ? "assets/verticalPlaceholder.png" : widget.image.imagePath, fit: BoxFit.scaleDown),
-                ),
+                child: Image.asset(isWireframe ? "assets/verticalPlaceholder.png" : widget.image.imagePath, fit: BoxFit.scaleDown),
               ),
             ),
           ),

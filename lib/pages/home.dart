@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bnflp_wireframe/data/testData.dart';
 import 'package:bnflp_wireframe/data/dataTypes.dart';
 import 'package:bnflp_wireframe/widgets/aboutMeBlurb.dart';
@@ -17,6 +19,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  ScrollController scrollController = ScrollController();
+  double scrollPos = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+      scrollPos = max(scrollController.position.pixels, 0);
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double aspectRatio =
@@ -31,16 +50,28 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body:  ListView(
+        controller: scrollController,
         children: [
-          GestureDetector(
-            child: ImageCarousel(
-              images: images,
-              aspectRatio: aspectRatio,
-              parentContext: context,
-            ),
-            onTap: () {
-              context.push('/galleries');
-            },
+          ListenableBuilder(
+            listenable: scrollController,
+            builder: (context, snapshot) {
+              return Padding(
+                padding: EdgeInsets.all(isMobile(context) ? scrollPos < 100 ? scrollPos * 0.2 : 20 : 0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(isMobile(context) ? scrollPos < 100 ? scrollPos * 0.2 : 20 : 0),
+                  child: GestureDetector(
+                    child: ImageCarousel(
+                      images: images,
+                      aspectRatio: aspectRatio,
+                      parentContext: context,
+                    ),
+                    onTap: () {
+                      context.push('/galleries');
+                    },
+                  ),
+                ),
+              );
+            }
           ),
           Center(
             child: Padding(
