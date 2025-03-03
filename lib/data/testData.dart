@@ -1,5 +1,6 @@
 
   import 'package:bnflp_wireframe/data/dataTypes.dart';
+import 'package:flutter/foundation.dart';
 
 List<ImageData> images = [
     ImageData(
@@ -60,3 +61,5 @@ List<GalleryData> galleries = [
       galleryName: "Colorado",
     ),
   ];
+  
+  bool isWireframe = kDebugMode;

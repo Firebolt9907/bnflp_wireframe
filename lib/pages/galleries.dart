@@ -5,6 +5,7 @@ import 'package:bnflp_wireframe/widgets/galleryCarousel.dart';
 import 'package:bnflp_wireframe/widgets/navBar.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class GalleriesPage extends StatefulWidget {
   const GalleriesPage({super.key});
@@ -20,12 +21,12 @@ class _GalleriesPageState extends State<GalleriesPage> {
   Widget build(BuildContext context) {
     double aspectRatio =
         MediaQuery.sizeOf(context).width / MediaQuery.sizeOf(context).height;
-    return CupertinoPageScaffold(
-      navigationBar: createNavBar(context, "Galleries", false, "Home", isMobile(context)),
+    return Scaffold(
+      appBar: createNavBar(context, "Galleries", false, "Home", isMobile(context)),
 
-      child: ListView.builder(
+      body: ListView.builder(
         itemCount: galleries.length + 1,
-        padding: EdgeInsets.only(top: isMobile(context) ? 90 : 40),
+        // padding: EdgeInsets.only(top: isMobile(context) ? 90 : 40),
         itemBuilder: (context, index) {
           if (index == galleries.length) {
             return Footer();

@@ -1,5 +1,6 @@
 import 'package:bnflp_wireframe/config/config.dart';
 import 'package:bnflp_wireframe/data/dataTypes.dart';
+import 'package:bnflp_wireframe/data/testData.dart';
 import 'package:bnflp_wireframe/widgets/carouselButtons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Padding(
-          padding: EdgeInsets.only(top: isMobile(context) ? 60 : 0),
+          padding: EdgeInsets.only(top: isMobile(context) ? 0 : 0),
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [
@@ -41,15 +42,18 @@ class _ImageCarouselState extends State<ImageCarousel> {
                       alignment: Alignment.bottomLeft,
                       children: [
                         SizedBox.expand(
-                          child: ClipRRect(
+                          child: Hero(
+                              transitionOnUserGestures: true,
+                              tag: widget.images[index].imagePath,
+                              child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
                                   isMobile(context) ? 0 : 20,
                                 ),
                                 child: Image.asset(
-                                    widget.images[index].imagePath,
+                                    isWireframe ? "assets/verticalPlaceholder.png" : widget.images[index].imagePath,
                                     fit: BoxFit.cover,
                                 ),
-                              ),
+                              )),
                         ),
                         Padding(
                               padding: EdgeInsets.symmetric(

@@ -1,5 +1,8 @@
 import 'package:bnflp_wireframe/data/dataTypes.dart';
+import 'package:bnflp_wireframe/data/testData.dart';
+import 'package:bnflp_wireframe/pages/galleries.dart';
 import 'package:bnflp_wireframe/pages/purchasePage.dart';
+import 'package:bnflp_wireframe/pages/specificGallery.dart';
 import 'package:bnflp_wireframe/widgets/carouselButtons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,15 +33,36 @@ class _GalleryCarouselState extends State<GalleryCarousel> {
       builder: (context, constraints) {
         return Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-              child: Text(
-                "${widget.gallery.galleryName}",
-                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 50,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  child: Text(
+                    widget.gallery.galleryName,
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 50,
+                    ),
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: TextButton(onPressed: () {
+                    Navigator.push(
+                      widget.parentContext,
+                      CupertinoPageRoute(
+                        builder: (context) {
+                          return SpecificGallery(
+                            gallery: widget.gallery,
+                          );
+                        },
+                      ),
+                    );
+                  }, child: Text("View All"), style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Theme.of(context).hintColor.withAlpha(30))),),
+                )
+              ],
             ),
             Stack(
               alignment: Alignment.centerLeft,
@@ -77,7 +101,7 @@ class _GalleryCarouselState extends State<GalleryCarousel> {
                                 child: AspectRatio(
                                   aspectRatio: widget.aspectRatio * 2,
                                   child: Image.asset(
-                                    widget.gallery.images[index].imagePath,
+                                    isWireframe ? "assets/verticalPlaceholder.png" : widget.gallery.images[index].imagePath,
                                     fit: BoxFit.cover,
                                   ),
                                 ),

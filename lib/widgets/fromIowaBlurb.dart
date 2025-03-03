@@ -1,11 +1,10 @@
 import 'dart:math';
 
 import 'package:bnflp_wireframe/data/dataTypes.dart';
-import 'package:bnflp_wireframe/data/testData.dart';
 import 'package:flutter/material.dart';
 
-class AboutMeBlurb extends StatelessWidget {
-  const AboutMeBlurb({super.key, required this.parentContext});
+class IowaBlurb extends StatelessWidget {
+  const IowaBlurb({super.key, required this.parentContext});
   final BuildContext parentContext;
 
   @override
@@ -15,13 +14,7 @@ class AboutMeBlurb extends StatelessWidget {
         if (isMobile(context)) {
           return Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20), 
-                  child: Image.asset(isWireframe ? "assets/squarePlaceholder.png" : 'assets/pfp.jpg'),
-                ),
-              ),
+              Image.asset('assets/pfp.jpg'),
               SizedBox(
                 width: double.infinity,
                 child: IntrinsicHeight(

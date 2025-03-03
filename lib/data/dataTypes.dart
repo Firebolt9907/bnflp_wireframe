@@ -35,3 +35,20 @@ class GalleryData {
   });
 }
 
+class CartItemData {
+  final ImageData image;
+  final double price;
+  final int quantity;
+
+  CartItemData(this.quantity, {required this.image, required this.price});
+}
+
+class AwardData {
+  final String title;
+  final String description;
+
+  AwardData({
+    required this.title,
+    required this.description,
+  });
+}

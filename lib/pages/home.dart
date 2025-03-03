@@ -3,6 +3,7 @@ import 'package:bnflp_wireframe/data/dataTypes.dart';
 import 'package:bnflp_wireframe/widgets/aboutMeBlurb.dart';
 import 'package:bnflp_wireframe/widgets/footer.dart';
 import 'package:bnflp_wireframe/widgets/imageCarousel.dart';
+import 'package:bnflp_wireframe/widgets/logo.dart';
 import 'package:bnflp_wireframe/widgets/navBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     double aspectRatio =
         MediaQuery.sizeOf(context).width / MediaQuery.sizeOf(context).height;
-    return CupertinoPageScaffold(
-      navigationBar: createNavBar(
+    return Scaffold(
+      appBar: createNavBar(
         context,
         "Bare Necessities of Life Photography",
         true,
@@ -29,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
         isMobile(context),
       ),
 
-      child: ListView(
+      body:  ListView(
         children: [
           GestureDetector(
             child: ImageCarousel(
@@ -40,6 +41,25 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               context.push('/galleries');
             },
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: ElevatedButton(
+                onPressed: () {
+                  context.push('/galleries');
+                },
+                child: Text('See All Galleries', style: Theme.of(context).textTheme.displayLarge!.copyWith(color: Colors.green.shade900), textAlign: TextAlign.center,),
+                style: ButtonStyle(shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  
+                ), backgroundColor: WidgetStateProperty.all(
+                  Colors.green.shade100,
+                )),
+              ),
+            ),
           ),
           AboutMeBlurb(parentContext: context),
           Padding(
