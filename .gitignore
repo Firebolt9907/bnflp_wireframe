@@ -40,6 +40,7 @@ migrate_working_dir/
 /build/.last_build_id
 /build/db9855fad245d0a11cb730ae6ae24ffd
 /node_modules/
+/firebase.json
 
 # Symbolication related
 app.*.symbols
@@ -51,3 +52,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+firebase.json
+postdeploy.bat

@@ -1,11 +1,11 @@
 {
-    "name": "bnflp_wireframe",
-    "short_name": "bnflp_wireframe",
+    "name": "Bare Life of Neccesities Photography",
+    "short_name": "Bare Life of Neccesities Photography",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Local Photographer from Waukee, Iowa Specializing in Nature",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -73,26 +73,20 @@ class _SpecificGalleryState extends State<SpecificGallery> {
           Listener(
             onPointerSignal: (event) {
               if (event is PointerScrollEvent) {
-                print(event.kind);
                 if (event.kind == PointerDeviceKind.trackpad ||
                     event.kind == PointerDeviceKind.touch) {
-                  print("touch");
-                  isTrackpadOrTouch = true;
-                  setState(() {});
-                } else {
-                  print("mouse");
-                }
+                  setState(() {
+                    isTrackpadOrTouch = true;
+                  });
+                } else {}
               }
             },
-            child:
-                !isTrackpadOrTouch
-                    ? WebSmoothScroll(
-                      scrollAnimationLength: 200,
-                      scrollSpeed: 5,
-                      controller: pageController,
-                      child: scrollView(),
-                    )
-                    : scrollView(),
+            child: WebSmoothScroll(
+              scrollAnimationLength: 400,
+              scrollSpeed: 5,
+              controller: pageController,
+              child: scrollView(),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(20),
