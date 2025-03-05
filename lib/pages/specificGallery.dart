@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:bnflp_wireframe/data/testData.dart';
 import 'package:bnflp_wireframe/data/dataTypes.dart';
@@ -10,9 +11,11 @@ import 'package:bnflp_wireframe/widgets/imageCarousel.dart';
 import 'package:bnflp_wireframe/widgets/navBar.dart';
 import 'package:bnflp_wireframe/widgets/scrollBar.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 
 class SpecificGallery extends StatefulWidget {
   final GalleryData gallery;
@@ -25,21 +28,16 @@ class SpecificGallery extends StatefulWidget {
 
 class _SpecificGalleryState extends State<SpecificGallery> {
   late PageController pageController;
+  late PageController emptyPageController;
   double scrollPos = 0;
   double imagesScrolled = 0;
+  bool isTrackpadOrTouch = false;
 
   @override
   void initState() {
     super.initState();
     pageController = PageController();
     pageController.addListener(_scrollListener);
-    pageController.addListener(() {
-  if (pageController.position.userScrollDirection == ScrollDirection.reverse) {
-    pageController.nextPage(duration: const Duration(milliseconds: 60), curve: Curves.easeIn);
-  } else if (pageController.position.userScrollDirection == ScrollDirection.forward) {
-    pageController.previousPage(duration: const Duration(milliseconds: 60), curve: Curves.easeIn);
-  }
-});
   }
 
   @override
@@ -72,53 +70,29 @@ class _SpecificGalleryState extends State<SpecificGallery> {
       ),
       body: Stack(
         children: [
-          PageView.builder(
-            controller: pageController,
-            itemCount: widget.gallery.images.length + 1,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) {
-              if (index == widget.gallery.images.length) {
-                return AnimatedBuilder(
-                animation: pageController,
-                builder: (context, child) {
-                  imagesScrolled = (pageController.page ?? 0);
-                  return Padding(
-                    padding: EdgeInsets.only(top: (imagesScrolled - index).abs() * MediaQuery.sizeOf(context).height * 0.7),
-                    child: Column(
-                      spacing: isMobile(context) ? 0 : 10,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: isMobile(context) ? 10 : 0),
-                          child: Text("Check out my other galleries!", textAlign: TextAlign.center, style: Theme.of(context).textTheme.displayMedium)),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: (imagesScrolled - index).abs() * MediaQuery.sizeOf(context).height * 0.3),
-                          child: ImageCarousel(
-                            images: galleries[1].images,
-                            aspectRatio: MediaQuery.sizeOf(context).width / (MediaQuery.sizeOf(context).height - 280),
-                            parentContext: context,
-                          ),
-                        ),
-                        Expanded(
-                          child: Footer()),
-                      ],
-                    ),
-                  );
-                },
-              );
+          Listener(
+            onPointerSignal: (event) {
+              if (event is PointerScrollEvent) {
+                print(event.kind);
+                if (event.kind == PointerDeviceKind.trackpad ||
+                    event.kind == PointerDeviceKind.touch) {
+                  print("touch");
+                  isTrackpadOrTouch = true;
+                  setState(() {});
+                } else {
+                  print("mouse");
+                }
               }
-              return AnimatedBuilder(
-                animation: pageController,
-                builder: (context, child) {
-                  imagesScrolled = (pageController.page ?? 0);
-                  return GalleryImage(
-                    parentContext: context,
-                    image: widget.gallery.images[index],
-                    imagesScrolled: imagesScrolled,
-                    index: index,
-                  );
-                },
-              );
             },
+            child:
+                !isTrackpadOrTouch
+                    ? WebSmoothScroll(
+                      scrollAnimationLength: 200,
+                      scrollSpeed: 5,
+                      controller: pageController,
+                      child: scrollView(),
+                    )
+                    : scrollView(),
           ),
           Padding(
             padding: const EdgeInsets.all(20),
@@ -128,7 +102,18 @@ class _SpecificGalleryState extends State<SpecificGallery> {
                     : ListenableBuilder(
                       listenable: pageController,
                       builder: (context, snapshot) {
-                        return Transform.translate(offset: Offset((min((widget.gallery.images.length - imagesScrolled).abs(),1)-1) * 80, 0),
+                        return Transform.translate(
+                          offset: Offset(
+                            (min(
+                                      (widget.gallery.images.length -
+                                              imagesScrolled)
+                                          .abs(),
+                                      1,
+                                    ) -
+                                    1) *
+                                80,
+                            0,
+                          ),
                           child: BackButton(
                             onPressed: () {
                               context.pop();
@@ -140,26 +125,99 @@ class _SpecificGalleryState extends State<SpecificGallery> {
                             ),
                           ),
                         );
-                      }
+                      },
                     ),
           ),
           ListenableBuilder(
             listenable: pageController,
             builder: (context, snapshot) {
-                return Positioned(
+              return Positioned(
                 right: 10,
-                top: (MediaQuery.of(context).size.height-270) / 2 - (widget.gallery.images.length * 15) / 2,
+                top:
+                    (MediaQuery.of(context).size.height - 270) / 2 -
+                    (widget.gallery.images.length * 15) / 2,
                 child: DottedScrollBar(
                   numDots: widget.gallery.images.length + 1,
                   activeDot: imagesScrolled,
                   isHorizontal: false,
                   isMobile: isMobile(context),
                 ),
-                );
+              );
             },
           ),
         ],
       ),
+    );
+  }
+
+  Widget scrollView() {
+    return PageView.builder(
+      controller: pageController,
+      itemCount: widget.gallery.images.length + 1,
+      scrollDirection: Axis.vertical,
+      physics: isTrackpadOrTouch ? null : NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        if (index == widget.gallery.images.length) {
+          return AnimatedBuilder(
+            animation: pageController,
+            builder: (context, child) {
+              imagesScrolled = (pageController.page ?? 0);
+              return Padding(
+                padding: EdgeInsets.only(
+                  top:
+                      (imagesScrolled - index).abs() *
+                      MediaQuery.sizeOf(context).height *
+                      0.7,
+                ),
+                child: Column(
+                  spacing: isMobile(context) ? 0 : 10,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        bottom: isMobile(context) ? 10 : 0,
+                      ),
+                      child: Text(
+                        "Check out my other galleries!",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical:
+                            (imagesScrolled - index).abs() *
+                            MediaQuery.sizeOf(context).height *
+                            0.3,
+                      ),
+                      child: ImageCarousel(
+                        images: galleries[1].images,
+                        aspectRatio:
+                            MediaQuery.sizeOf(context).width /
+                            (MediaQuery.sizeOf(context).height - 280),
+                        parentContext: context,
+                      ),
+                    ),
+                    Expanded(child: Footer()),
+                  ],
+                ),
+              );
+            },
+          );
+        }
+        return AnimatedBuilder(
+          animation: pageController,
+          builder: (context, child) {
+            imagesScrolled = (pageController.page ?? 0);
+            return GalleryImage(
+              parentContext: context,
+              image: widget.gallery.images[index],
+              imagesScrolled: imagesScrolled,
+              index: index,
+            );
+          },
+        );
+      },
     );
   }
 }

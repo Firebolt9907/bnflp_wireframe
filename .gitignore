@@ -36,6 +36,10 @@ migrate_working_dir/
 /build/macos
 /build/native_assets
 /build/cache.dill.track.dill
+/build/windows
+/build/.last_build_id
+/build/db9855fad245d0a11cb730ae6ae24ffd
+/node_modules/
 
 # Symbolication related
 app.*.symbols
