@@ -11,6 +11,7 @@ import 'package:bnflp_wireframe/widgets/navBar.dart';
 import 'package:bnflp_wireframe/widgets/scrollBar.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 
 class SpecificGallery extends StatefulWidget {
@@ -32,6 +33,13 @@ class _SpecificGalleryState extends State<SpecificGallery> {
     super.initState();
     pageController = PageController();
     pageController.addListener(_scrollListener);
+    pageController.addListener(() {
+  if (pageController.position.userScrollDirection == ScrollDirection.reverse) {
+    pageController.nextPage(duration: const Duration(milliseconds: 60), curve: Curves.easeIn);
+  } else if (pageController.position.userScrollDirection == ScrollDirection.forward) {
+    pageController.previousPage(duration: const Duration(milliseconds: 60), curve: Curves.easeIn);
+  }
+});
   }
 
   @override
@@ -42,7 +50,6 @@ class _SpecificGalleryState extends State<SpecificGallery> {
 
   void _scrollListener() {
     scrollPos = max(pageController.position.pixels, 0);
-    print(scrollPos);
     if (pageController.position.atEdge) {
       bool isTop = pageController.position.pixels == 0;
       if (isTop) {
@@ -78,16 +85,16 @@ class _SpecificGalleryState extends State<SpecificGallery> {
                   return Padding(
                     padding: EdgeInsets.only(top: (imagesScrolled - index).abs() * MediaQuery.sizeOf(context).height * 0.7),
                     child: Column(
-                      spacing: 10,
+                      spacing: isMobile(context) ? 0 : 10,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(top: 10, bottom: isMobile(context) ? 10 : 0),
                           child: Text("Check out my other galleries!", textAlign: TextAlign.center, style: Theme.of(context).textTheme.displayMedium)),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: (imagesScrolled - index).abs() * MediaQuery.sizeOf(context).height * 0.3),
                           child: ImageCarousel(
                             images: galleries[1].images,
-                            aspectRatio: MediaQuery.sizeOf(context).width / (MediaQuery.sizeOf(context).height - 120),
+                            aspectRatio: MediaQuery.sizeOf(context).width / (MediaQuery.sizeOf(context).height - 280),
                             parentContext: context,
                           ),
                         ),
@@ -141,11 +148,12 @@ class _SpecificGalleryState extends State<SpecificGallery> {
             builder: (context, snapshot) {
                 return Positioned(
                 right: 10,
-                top: (MediaQuery.of(context).size.height-270) / 2 - (widget.gallery.images.length * 10) / 2,
+                top: (MediaQuery.of(context).size.height-270) / 2 - (widget.gallery.images.length * 15) / 2,
                 child: DottedScrollBar(
                   numDots: widget.gallery.images.length + 1,
                   activeDot: imagesScrolled,
                   isHorizontal: false,
+                  isMobile: isMobile(context),
                 ),
                 );
             },

@@ -116,6 +116,13 @@ class _PurchasePageState extends State<PurchasePage> {
       ),
     ),
     Text(
+        '${widget.image.location}',
+        style: Theme.of(
+          context,
+        ).textTheme.displaySmall,
+        textAlign: TextAlign.left,
+      ),
+    Text(
       "\$12.99",
       style: Theme.of(context).textTheme.displaySmall,
       textAlign: TextAlign.left,

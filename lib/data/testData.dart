@@ -53,7 +53,7 @@ List<GalleryData> galleries = [
       ImageData(
         imagePath: 'assets/8.jpg',
         caption: "A picture of a bridge",
-        location: "Unknown",
+        location: "Unknown Location",
       ),
       ImageData(
         imagePath: 'assets/9.jpg',

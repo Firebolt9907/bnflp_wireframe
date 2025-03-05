@@ -28,7 +28,7 @@ class NavBarDropdown extends StatelessWidget {
             CupertinoListTile(
               onTap: () {
                 parentContext.pop();
-                Future.delayed(Duration(milliseconds: 500), () {
+                Future.delayed(Duration(milliseconds: 300), () {
                   parentContext.go(buttonData.route);
                 });
               },

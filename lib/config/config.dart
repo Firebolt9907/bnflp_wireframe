@@ -23,3 +23,4 @@ CarouselOptions getCarouselOptions(dynamic aspectRatio, BuildContext context) {
     pauseAutoPlayOnTouch: true,
   );
 }
+
